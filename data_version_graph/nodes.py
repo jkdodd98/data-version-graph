@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import typing
-from typing import Union
+from typing import Iterable, Union
 
 
 class Node:
@@ -22,7 +22,25 @@ class Node:
             return self.name == other.name and self.version == other.version
         return False
 
+    def __rshift__(self, other: Node) -> None:
+        if isinstance(other, Node):
+            other.add_predecessor(self)
+        else:
+            raise TypeError("Can only add Node instances as predecessors")
+
     def add_predecessor(self, *nodes: Node) -> None:
-        self.predecessors.extend(
-            node for node in nodes if node not in self.predecessors
-        )
+        if all(isinstance(node, Node) for node in nodes):
+            self.predecessors.extend(
+                node for node in nodes if node not in self.predecessors
+            )
+        else:
+            raise TypeError("Can only add Node instances as predecessors")
+
+
+if __name__ == "__main__":
+    node = Node("test-node")
+    node_2 = Node("test-node-2", 2)
+
+    node >> node_2
+    print(node.predecessors)
+    print(node_2.predecessors)
