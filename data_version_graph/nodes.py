@@ -17,6 +17,9 @@ class Node:
     def __repr__(self) -> str:
         return f"{self._node_type}(name={self.name!r}, version={self.version!r})"
 
+    def __hash__(self) -> int:
+        return hash((self.name, self.version))
+
     def __eq__(self, right: typing.Any) -> bool:
         if isinstance(right, self.__class__):
             return self.name == right.name and self.version == right.version

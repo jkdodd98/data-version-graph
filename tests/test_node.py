@@ -42,6 +42,18 @@ def test_node_repr() -> None:
     assert repr(node_4) == "Node(name='test-node-4', version='3')"
 
 
+def test_node_hash() -> None:
+    node = Node("test-node")
+    node_2 = Node("test-node-2", 2)
+    node_3 = Node("test-node-3", "1.0.0")
+    node_4 = Node("test-node-3", "1.0.0")
+
+    assert hash(node) == hash(("test-node", 1))
+    assert hash(node_2) == hash(("test-node-2", 2))
+    assert hash(node_3) == hash(("test-node-3", "1.0.0"))
+    assert hash(node_3) == hash(node_4)
+
+
 def test_node_eq() -> None:
     node = Node("test-node")
     node_2 = Node("test-node", 2)
