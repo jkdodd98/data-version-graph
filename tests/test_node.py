@@ -38,3 +38,29 @@ def test_node_repr():
 
     node_4 = Node("test-node-4", "3")
     assert repr(node_4) == "Node(name='test-node-4', version='3')"
+
+
+def test_node_eq():
+    node = Node("test-node")
+    node_2 = Node("test-node", 2)
+    node_3 = Node("test-node-2", "1.0.0")
+    node_4 = Node("test-node-2", "1.0.0")
+
+    assert node == Node("test-node")
+    assert node_2 == Node("test-node", 2)
+    assert node_3 == Node("test-node-2", "1.0.0")
+    assert node_3 == node_4
+    assert node != node_2
+    assert node != node_3
+
+
+def test_add_predecessors():
+    node = Node("test-node")
+    node_2 = Node("test-node-2", 2)
+    node_3 = Node("test-node-3", "1.0.0")
+
+    node_2.add_predecessor(node)
+    assert node_2.predecessors == [node]
+
+    node_3.add_predecessor(node, node_2)
+    assert node_3.predecessors == [node, node_2]
