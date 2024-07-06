@@ -76,6 +76,8 @@ def test_node_rshift() -> None:
     node_2 = Node("test-node-2", 2)
     node_3 = Node("test-node-3", "1.0.0")
     node_4 = Node("test-node-2", 2)
+    node_5 = Node("test-node-5")
+    node_6 = Node("test-node-6")
 
     node >> node_2
     assert node_2.predecessors == [node]
@@ -86,3 +88,28 @@ def test_node_rshift() -> None:
 
     node_4 >> node_3
     assert node_3.predecessors == [node, node_2]
+
+    node_4 >> node_5 >> node_6
+    assert node_5.predecessors == [node_4]
+    assert node_6.predecessors == [node_5]
+
+
+def test_node_rrshift() -> None:
+    node = Node("test-node")
+    node_2 = Node("test-node-2", 2)
+    node_3 = Node("test-node-3", "1.0.0")
+    node_4 = Node("test-node-2", 2)
+
+    [node, node_2, node_4] >> node_3
+    assert node_3.predecessors == [node, node_2]
+
+    node_A = Node("test-node-A")
+    node_B = Node("test-node-B")
+    node_C = Node("test-node-C")
+    node_D = Node("test-node-D")
+
+    node_A >> [node_B, node_C] >> node_D
+    assert node_A.predecessors == []
+    assert node_B.predecessors == [node_A]
+    assert node_C.predecessors == [node_A]
+    assert node_D.predecessors == [node_B, node_C]

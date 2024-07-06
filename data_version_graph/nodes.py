@@ -17,13 +17,36 @@ class Node:
     def __repr__(self) -> str:
         return f"{self._node_type}(name={self.name!r}, version={self.version!r})"
 
-    def __eq__(self, other: typing.Any) -> bool:
-        if isinstance(other, self.__class__):
-            return self.name == other.name and self.version == other.version
+    def __eq__(self, right: typing.Any) -> bool:
+        if isinstance(right, self.__class__):
+            return self.name == right.name and self.version == right.version
         return False
 
-    def __rshift__(self, other: Node) -> None:
-        other.add_predecessor(self)
+    def __rshift__(
+        self, right: Union[Node, Iterable[Node]]
+    ) -> Union[Node, Iterable[Node]]:
+        if isinstance(right, Node):
+            right.add_predecessor(self)
+            return right
+        elif isinstance(right, Iterable):
+            for node in right:
+                node.add_predecessor(self)
+            return right
+        else:
+            raise TypeError("Right operand must be Node or list of Nodes")
+
+    def __rrshift__(
+        self, left: Union[Node, Iterable[Node]]
+    ) -> Union[Node, Iterable[Node]]:
+        if isinstance(left, Node):
+            self.add_predecessor(left)
+            return left
+        elif isinstance(left, Iterable):
+            for node in left:
+                self.add_predecessor(node)
+            return left
+        else:
+            raise TypeError("Left operand must be Node or list of Nodes")
 
     def add_predecessor(self, *nodes: Node) -> None:
         if all(isinstance(node, Node) for node in nodes):
@@ -32,12 +55,3 @@ class Node:
             )
         else:
             raise TypeError("Can only add Node instances as predecessors")
-
-
-if __name__ == "__main__":
-    node = Node("test-node")
-    node_2 = Node("test-node-2", 2)
-
-    node >> node_2
-    print(node.predecessors)
-    print(node_2.predecessors)
