@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Poetry
+.poetry/
+.poetry.lock
+
+# Ruff
+.ruff/
+.ruff.json
+.ruff_cache/
+
+# Mypy
+.mypy_cache/
+
+# Mac
+.DS_Store
