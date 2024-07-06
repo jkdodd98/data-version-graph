@@ -55,6 +55,8 @@ def test_node_eq() -> None:
     assert node != node_2
     assert node != node_3
 
+    assert node != "test-node"
+
 
 def test_node_add_predecessors() -> None:
     node = Node("test-node")
