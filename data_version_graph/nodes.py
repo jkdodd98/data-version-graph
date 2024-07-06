@@ -38,12 +38,8 @@ class Node:
     def __rrshift__(
         self, left: Union[Node, Iterable[Node]]
     ) -> Union[Node, Iterable[Node]]:
-        if isinstance(left, Node):
-            self.add_predecessor(left)
-            return left
-        elif isinstance(left, Iterable):
-            for node in left:
-                self.add_predecessor(node)
+        if isinstance(left, Node) or isinstance(left, Iterable):
+            self.add_predecessor(*left)
             return left
         else:
             raise TypeError("Left operand must be Node or list of Nodes")
