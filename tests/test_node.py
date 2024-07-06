@@ -149,3 +149,26 @@ def test_node_remove_predecessors() -> None:
 
     with pytest.raises(ValueError):
         node_3.remove_predecessor(node_2)
+
+
+def test_node_predecessor_tree() -> None:
+    node = Node("test-node")
+    node_2 = Node("test-node-2", 2)
+    node_3 = Node("test-node-3", "1.0.0")
+    node_4 = Node("test-node-4", "1.0.0")
+    node_5 = Node("test-node-5", "1.0.0")
+    node_6 = Node("test-node-6", "1.0.0")
+
+    node >> node_2
+    node_2 >> node_3
+    node_2 >> node_4
+    node_4 >> node_5
+    node_3 >> node_6
+    node_5 >> node_6
+
+    assert node.predecessor_tree() == []
+    assert node_2.predecessor_tree() == [node]
+    assert node_3.predecessor_tree() == [node_2, node]
+    assert node_4.predecessor_tree() == node_3.predecessor_tree()
+    assert node_5.predecessor_tree() == [node_4, node_2, node]
+    assert node_6.predecessor_tree() == [node_3, node_2, node, node_5, node_4]

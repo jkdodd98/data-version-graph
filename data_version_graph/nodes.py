@@ -64,3 +64,16 @@ class Node:
                 self.predecessors.remove(node)
         else:
             raise TypeError("Can only remove Node instances as predecessors")
+
+    def predecessor_tree(self, _nodes: set[Node] = None) -> list[Node]:
+        if _nodes is None:
+            _nodes = set()
+
+        result = []
+        for node in self.predecessors:
+            if node not in _nodes:
+                _nodes.add(node)
+                result.append(node)
+                result.extend(node.predecessor_tree(_nodes))
+
+        return result
