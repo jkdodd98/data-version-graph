@@ -41,7 +41,10 @@ class Node:
     def __rrshift__(
         self, left: Union[Node, Iterable[Node]]
     ) -> Union[Node, Iterable[Node]]:
-        if isinstance(left, Node) or isinstance(left, Iterable):
+        if isinstance(left, Node):
+            self.add_predecessor(left)
+            return left
+        elif isinstance(left, Iterable):
             self.add_predecessor(*left)
             return left
         else:
@@ -54,3 +57,10 @@ class Node:
             )
         else:
             raise TypeError("Can only add Node instances as predecessors")
+
+    def remove_predecessor(self, *nodes: Node) -> None:
+        if all(isinstance(node, Node) for node in nodes):
+            for node in nodes:
+                self.predecessors.remove(node)
+        else:
+            raise TypeError("Can only remove Node instances as predecessors")

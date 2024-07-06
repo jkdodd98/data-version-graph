@@ -70,21 +70,6 @@ def test_node_eq() -> None:
     assert node != "test-node"
 
 
-def test_node_add_predecessors() -> None:
-    node = Node("test-node")
-    node_2 = Node("test-node-2", 2)
-    node_3 = Node("test-node-3", "1.0.0")
-
-    node_2.add_predecessor(node)
-    assert node_2.predecessors == [node]
-
-    node_3.add_predecessor(node, node_2)
-    assert node_3.predecessors == [node, node_2]
-
-    with pytest.raises(TypeError):
-        node_3.add_predecessor("test-node")
-
-
 def test_node_rshift() -> None:
     node = Node("test-node")
     node_2 = Node("test-node-2", 2)
@@ -131,3 +116,36 @@ def test_node_rrshift() -> None:
 
     (node_A, node_B) >> node_E
     assert node_E.predecessors == [node_A, node_B]
+
+
+def test_node_add_predecessors() -> None:
+    node = Node("test-node")
+    node_2 = Node("test-node-2", 2)
+    node_3 = Node("test-node-3", "1.0.0")
+
+    node_2.add_predecessor(node)
+    assert node_2.predecessors == [node]
+
+    node_3.add_predecessor(node, node_2)
+    assert node_3.predecessors == [node, node_2]
+
+    with pytest.raises(TypeError):
+        node_3.add_predecessor("test-node")
+
+
+def test_node_remove_predecessors() -> None:
+    node = Node("test-node")
+    node_2 = Node("test-node-2", 2)
+    node_3 = Node("test-node-3", "1.0.0")
+
+    node_3.add_predecessor(node, node_2)
+    assert node_3.predecessors == [node, node_2]
+
+    node_3.remove_predecessor(node)
+    assert node_3.predecessors == [node_2]
+
+    node_3.remove_predecessor(node_2)
+    assert node_3.predecessors == []
+
+    with pytest.raises(ValueError):
+        node_3.remove_predecessor(node_2)
