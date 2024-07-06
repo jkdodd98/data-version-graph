@@ -8,7 +8,7 @@ class Node:
     def __init__(self, name: str, version: Union[int, str] = 1) -> None:
         self.name = name
         self.version = version
-        self.predecessors = []
+        self.predecessors: list[Node] = []
 
     @property
     def _node_type(self) -> str:
