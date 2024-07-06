@@ -109,9 +109,13 @@ def test_node_rrshift() -> None:
     node_B = Node("test-node-B")
     node_C = Node("test-node-C")
     node_D = Node("test-node-D")
+    node_E = Node("test-node-E")
 
     node_A >> [node_B, node_C] >> node_D
     assert node_A.predecessors == []
     assert node_B.predecessors == [node_A]
     assert node_C.predecessors == [node_A]
     assert node_D.predecessors == [node_B, node_C]
+
+    (node_A, node_B) >> node_E
+    assert node_E.predecessors == [node_A, node_B]
