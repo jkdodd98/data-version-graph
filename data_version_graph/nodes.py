@@ -23,10 +23,7 @@ class Node:
         return False
 
     def __rshift__(self, other: Node) -> None:
-        if isinstance(other, Node):
-            other.add_predecessor(self)
-        else:
-            raise TypeError("Can only add Node instances as predecessors")
+        other.add_predecessor(self)
 
     def add_predecessor(self, *nodes: Node) -> None:
         if all(isinstance(node, Node) for node in nodes):
