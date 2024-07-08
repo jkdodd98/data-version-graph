@@ -1,6 +1,6 @@
 import pytest
 
-from data_version_graph.nodes import Node
+from data_version_graph.nodes.base_node import Node
 
 
 def test_node_init() -> None:
@@ -77,6 +77,8 @@ def test_node_rshift() -> None:
     node_4 = Node("test-node-2", 2)
     node_5 = Node("test-node-5")
     node_6 = Node("test-node-6")
+    node_7 = Node("test-node-7")
+    node_8 = Node("test-node-8")
 
     node >> node_2
     assert node_2.predecessors == [node]
@@ -91,6 +93,14 @@ def test_node_rshift() -> None:
     node_4 >> node_5 >> node_6
     assert node_5.predecessors == [node_4]
     assert node_6.predecessors == [node_5]
+
+    node_5 >> [node_7, node_8]
+    assert node_7.predecessors == [node_5]
+    assert node_8.predecessors == [node_5]
+
+    node_6 >> [node_7, node_8]
+    assert node_7.predecessors == [node_5, node_6]
+    assert node_8.predecessors == [node_5, node_6]
 
 
 def test_node_rrshift() -> None:
