@@ -20,7 +20,7 @@ clean:  ## Remove temporary and generated files
 	find . -type d -name ".*_cache" -exec rm -rf {} +;
 
 test: ## Run tests
-	$(POETRY) run coverage run -m pytest tests/test_*.py && $(POETRY) run coverage report
+	$(POETRY) run coverage run -m pytest tests/**/test_*.py && $(POETRY) run coverage report --show-missing
 
 format: ## Format code using ruff
 	$(POETRY) run ruff check --fix data_version_graph

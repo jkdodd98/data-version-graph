@@ -31,24 +31,21 @@ class Node:
         if isinstance(right, Node):
             right.add_predecessor(self)
             return right
-        elif isinstance(right, Iterable):
+        elif isinstance(right, Iterable) and all(
+            isinstance(node, Node) for node in right
+        ):
             for node in right:
                 node.add_predecessor(self)
             return right
         else:
-            raise TypeError("Right operand must be Node or list of Nodes")
+            raise TypeError("Right operand must be Node or Iterable[Nodes]")
 
-    def __rrshift__(
-        self, left: Union[Node, Iterable[Node]]
-    ) -> Union[Node, Iterable[Node]]:
-        if isinstance(left, Node):
-            self.add_predecessor(left)
-            return left
-        elif isinstance(left, Iterable):
+    def __rrshift__(self, left: Iterable[Node]) -> Union[Node, Iterable[Node]]:
+        if isinstance(left, Iterable) and all(isinstance(node, Node) for node in left):
             self.add_predecessor(*left)
             return left
         else:
-            raise TypeError("Left operand must be Node or list of Nodes")
+            raise TypeError("Left operand must be Iterable[Nodes]")
 
     def add_predecessor(self, *nodes: Node) -> None:
         if all(isinstance(node, Node) for node in nodes):

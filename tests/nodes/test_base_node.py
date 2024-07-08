@@ -102,6 +102,15 @@ def test_node_rshift() -> None:
     assert node_7.predecessors == [node_5, node_6]
     assert node_8.predecessors == [node_5, node_6]
 
+    with pytest.raises(TypeError):
+        node_6 >> "node_7"
+
+    with pytest.raises(TypeError):
+        node_6 >> [1, 2, 3]
+
+    with pytest.raises(TypeError):
+        node_6 >> (node_7, 1, 2, 3)
+
 
 def test_node_rrshift() -> None:
     node = Node("test-node")
@@ -126,6 +135,15 @@ def test_node_rrshift() -> None:
 
     (node_A, node_B) >> node_E
     assert node_E.predecessors == [node_A, node_B]
+
+    with pytest.raises(TypeError):
+        [1, 2, 3] >> node_3
+
+    with pytest.raises(TypeError):
+        [node_2, 1, 2, 3] >> node_3
+
+    with pytest.raises(TypeError):
+        [node, node_4, "node_5"] >> node_3
 
 
 def test_node_add_predecessors() -> None:
@@ -157,8 +175,16 @@ def test_node_remove_predecessors() -> None:
     node_3.remove_predecessor(node_2)
     assert node_3.predecessors == []
 
+    node_3.add_predecessor(node, node_2)
+    assert node_3.predecessors == [node, node_2]
+    node_3.remove_predecessor(node, node_2)
+    assert node_3.predecessors == []
+
     with pytest.raises(ValueError):
         node_3.remove_predecessor(node_2)
+
+    with pytest.raises(TypeError):
+        node_3.remove_predecessor(2)
 
 
 def test_node_predecessor_tree() -> None:
