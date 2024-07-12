@@ -30,6 +30,14 @@ class TestNode:
         assert repr(self.node2) == "Node(name='test_node2', version=1)"
         assert repr(self.node3) == "Node(name='test_node', version=2)"
 
+    def test_eq(self) -> None:
+        assert self.node == Node(name="test_node")
+        assert self.node != Node(name="test_node2")
+        assert self.node != Node(name="test_node", version=2)
+        assert self.node != "test_node"
+        assert self.node != self.node2
+        assert self.node3 == Node(name="test_node", version=2)
+
     def test_hash(self) -> None:
         assert hash(self.node) == hash(("Node", "test_node", 1))
         assert hash(self.node2) == hash(("Node", "test_node2", 1))
