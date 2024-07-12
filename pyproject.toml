@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.10"
 networkx = "^3.3"
 sqlalchemy = "^2.0.31"
+flask = "^3.0.3"
 
 
 [tool.poetry.group.dev.dependencies]
