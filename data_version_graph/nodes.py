@@ -1,9 +1,5 @@
-import uuid
-
-
 class Node:
     def __init__(self, name: str, *, version: int = 1) -> None:
-        self.pid = uuid.uuid4()
         self.name = name
         self.version = version
 
