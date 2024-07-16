@@ -1,4 +1,6 @@
 class Node:
+    color = "black"
+
     def __init__(self, name: str, *, version: int = 1) -> None:
         self.name = name
         self.version = version
@@ -22,12 +24,12 @@ class Node:
 
 
 class BigQueryTable(Node):
-    ...
+    color = "blue"
 
 
 class PostgresTable(Node):
-    ...
+    color = "red"
 
 
 class GoogleCloudStorageObject(Node):
-    ...
+    color = "green"

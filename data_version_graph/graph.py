@@ -43,7 +43,7 @@ class Graph:
     def add_node(self, node: "Node") -> None:
         if not isinstance(node, Node):
             raise TypeError("Only instances of Node can be added to the graph")
-        self.graph.add_node(node)
+        self.graph.add_node(node, color=node.color)
         self._add_db_node(node)
 
     def _add_db_node(self, node: "Node") -> None:
@@ -54,6 +54,8 @@ class Graph:
     def remove_node(self, node: "Node") -> None:
         if not isinstance(node, Node):
             raise TypeError("Only instances of Node can be removed from the graph")
+        if node not in self.graph.nodes:
+            return
         self.graph.remove_node(node)
         self._remove_db_node(node)
 
@@ -89,6 +91,8 @@ class Graph:
     def remove_edge(self, from_node: "Node", to_node: "Node") -> None:
         if not all(isinstance(node, Node) for node in (from_node, to_node)):
             raise TypeError("Only instances of Node can be removed from the graph")
+        if (from_node, to_node) not in self.graph.edges:
+            return
         self.graph.remove_edge(from_node, to_node)
         self._remove_db_edge(from_node, to_node)
 
