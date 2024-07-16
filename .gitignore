@@ -17,3 +17,7 @@ __pycache__/
 
 # Mac
 .DS_Store
+
+# SQLite
+*.db
+*.SQLite
