@@ -21,3 +21,6 @@ __pycache__/
 # SQLite
 *.db
 *.SQLite
+
+# Images
+*.png
