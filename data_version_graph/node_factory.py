@@ -1,3 +1,7 @@
+from typing import Union
+
+from sqlalchemy import Column
+
 from data_version_graph.nodes import (
     BigQueryTable,
     GoogleCloudStorageObject,
@@ -8,14 +12,19 @@ from data_version_graph.nodes import (
 
 class NodeFactory:
     @staticmethod
-    def create(node_type: str, **kwargs) -> Node:
+    def create(
+        node_type: Union[str, Column[str]],
+        *,
+        name: Union[str, Column[str]],
+        version: Union[int, Column[int]] = 1,
+    ) -> Node:
         if node_type == "Node":
-            return Node(**kwargs)
+            return Node(name, version=version)
         elif node_type == "BigQueryTable":
-            return BigQueryTable(**kwargs)
+            return BigQueryTable(name, version=version)
         elif node_type == "PostgresTable":
-            return PostgresTable(**kwargs)
+            return PostgresTable(name, version=version)
         elif node_type == "GoogleCloudStorageObject":
-            return GoogleCloudStorageObject(**kwargs)
+            return GoogleCloudStorageObject(name, version=version)
         else:
             raise ValueError(f"Unknown node type: {node_type}")

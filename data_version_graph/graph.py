@@ -1,6 +1,7 @@
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Union
 
 import networkx as nx
+from sqlalchemy import Column
 from sqlalchemy.orm import Session
 
 from data_version_graph.database import EdgeModel, NodeModel
@@ -123,7 +124,9 @@ class Graph:
             self.session.query(NodeModel).filter_by(name=name, version=version).first()
         )
 
-    def _get_db_node_by_id(self, node_id: int) -> Optional[NodeModel]:
+    def _get_db_node_by_id(
+        self, node_id: Union[int, Column[int]]
+    ) -> Optional[NodeModel]:
         return self.session.query(NodeModel).filter_by(id=node_id).first()
 
     def _get_db_edge(
@@ -135,8 +138,9 @@ class Graph:
             .first()
         )
 
-    def get_latest_version(self, name: str) -> Optional["Node"]:
+    def get_latest_version(self, name: str) -> Optional[Node]:
         nodes: list[Node] = [node for node in self.graph.nodes if node.name == name]
         if not nodes:
             return None
+
         return max(nodes, key=lambda node: node.version)

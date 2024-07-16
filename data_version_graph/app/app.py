@@ -1,4 +1,5 @@
 import networkx as nx
+import werkzeug
 from flask import (
     Flask,
     Response,
@@ -26,7 +27,7 @@ def frontpage() -> str:
 
 # Route to refresh the graph
 @app.route("/refresh-graph", methods=["POST"])
-def refresh_graph() -> Response:
+def refresh_graph() -> werkzeug.wrappers.response.Response:
     graph: Graph = app.config["GRAPH"]
     nx.nx_agraph.to_agraph(graph.graph).draw(
         f"{app.static_folder}/images/graph.png", prog="dot", args="-Nshape=box"
@@ -36,12 +37,13 @@ def refresh_graph() -> Response:
 
 
 @app.route("/nodes/add", methods=["POST"])
-def add_node() -> Response:
+def add_node() -> tuple[Response, int]:
     data = request.json
 
     if not Validate.node_request(data):
         return jsonify({"message": "Invalid request.", "status": 400}), 400
 
+    data: dict  # if data passes validation it must be a valid dict.
     node_type = data.pop("ntype")
     node = NodeFactory.create(node_type, **data)
 
@@ -52,12 +54,13 @@ def add_node() -> Response:
 
 
 @app.route("/nodes/remove", methods=["POST"])
-def remove_node() -> Response:
+def remove_node() -> tuple[Response, int]:
     data = request.json
 
     if not Validate.node_request(data):
         return jsonify({"message": "Invalid request.", "status": 400}), 400
 
+    data: dict  # if data passes validation it must be a valid dict.
     node_type = data.pop("ntype")
     node = NodeFactory.create(node_type, **data)
 
@@ -68,11 +71,13 @@ def remove_node() -> Response:
 
 
 @app.route("/edges/add", methods=["POST"])
-def add_edge() -> Response:
+def add_edge() -> tuple[Response, int]:
     data = request.json
+
     if not Validate.edge_request(data):
         return jsonify({"message": "Invalid request.", "status": 400}), 400
 
+    data: dict  # if data passes validation it must be a valid dict.
     upstream = data.pop("upstream")
     downstream = data.pop("downstream")
 
@@ -86,11 +91,13 @@ def add_edge() -> Response:
 
 
 @app.route("/edges/remove", methods=["POST"])
-def remove_edge() -> Response:
+def remove_edge() -> tuple[Response, int]:
     data = request.json
+
     if not Validate.edge_request(data):
         return jsonify({"message": "Invalid request.", "status": 400}), 400
 
+    data: dict  # if data passes validation it must be a valid dict.
     upstream = data.pop("upstream")
     downstream = data.pop("downstream")
 

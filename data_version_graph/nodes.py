@@ -1,9 +1,16 @@
+from typing import Union
+
+from sqlalchemy import Column
+
+
 class Node:
     color = "black"
 
-    def __init__(self, name: str, *, version: int = 1) -> None:
-        self.name = name
-        self.version = version
+    def __init__(
+        self, name: Union[str, Column[str]], version: Union[int, Column[int]] = 1
+    ) -> None:
+        self.name = str(name)
+        self.version = int(version)
 
     @property
     def ntype(self) -> str:
