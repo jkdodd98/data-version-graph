@@ -48,7 +48,12 @@ class Graph:
         self._add_db_node(node)
 
     def _add_db_node(self, node: "Node") -> None:
-        db_node = NodeModel(ntype=node.ntype, name=node.name, version=node.version)
+        db_node = NodeModel(
+            ntype=node.ntype,
+            name=node.name,
+            version=node.version,
+            properties=node.properties,
+        )
         self.session.add(db_node)  # add the node to the database
         self.session.commit()
 

@@ -13,7 +13,7 @@ class NodeModel(Base):
     ntype = Column(String, nullable=False)
     name = Column(String, nullable=False)
     version = Column(Integer, nullable=False)
-    kwargs = Column(JSON, nullable=True)
+    properties = Column(JSON, nullable=True)
 
 
 class EdgeModel(Base):

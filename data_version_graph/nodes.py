@@ -7,10 +7,14 @@ class Node:
     color = "black"
 
     def __init__(
-        self, name: Union[str, Column[str]], version: Union[int, Column[int]] = 1
+        self,
+        name: Union[str, Column[str]],
+        version: Union[int, Column[int]] = 1,
+        **properties,
     ) -> None:
         self.name = str(name)
         self.version = int(version)
+        self.properties = properties
 
     @property
     def ntype(self) -> str:
@@ -31,12 +35,12 @@ class Node:
 
 
 class BigQueryTable(Node):
-    color = "blue"
+    color = "#4285F4"
 
 
 class PostgresTable(Node):
-    color = "red"
+    color = "#0064a5"
 
 
 class GoogleCloudStorageObject(Node):
-    color = "green"
+    color = "#DB4437"

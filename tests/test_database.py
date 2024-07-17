@@ -29,7 +29,7 @@ def test_create_database():
     assert isinstance(columns[2]["type"], String)
     assert columns[3]["name"] == "version"
     assert isinstance(columns[3]["type"], Integer)
-    assert columns[4]["name"] == "kwargs"
+    assert columns[4]["name"] == "properties"
     assert isinstance(columns[4]["type"], JSON)
 
     columns = inspector.get_columns("edges")
