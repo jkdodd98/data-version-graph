@@ -1,6 +1,6 @@
 from typing import Any
 
-from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
+from sqlalchemy import JSON, Column, ForeignKey, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
 Base: Any = declarative_base()
@@ -13,6 +13,7 @@ class NodeModel(Base):
     ntype = Column(String, nullable=False)
     name = Column(String, nullable=False)
     version = Column(Integer, nullable=False)
+    kwargs = Column(JSON, nullable=True)
 
 
 class EdgeModel(Base):

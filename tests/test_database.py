@@ -1,4 +1,4 @@
-from sqlalchemy import inspect
+from sqlalchemy import JSON, Integer, String, inspect
 from sqlalchemy.orm import sessionmaker
 
 from data_version_graph.database import EdgeModel, NodeModel, create_database
@@ -20,11 +20,17 @@ def test_create_database():
 
     # verify that the tables have the expected columns
     columns = inspector.get_columns("nodes")
-    assert len(columns) == 4
+    assert len(columns) == 5
     assert columns[0]["name"] == "id"
+    assert isinstance(columns[0]["type"], Integer)
     assert columns[1]["name"] == "ntype"
+    assert isinstance(columns[1]["type"], String)
     assert columns[2]["name"] == "name"
+    assert isinstance(columns[2]["type"], String)
     assert columns[3]["name"] == "version"
+    assert isinstance(columns[3]["type"], Integer)
+    assert columns[4]["name"] == "kwargs"
+    assert isinstance(columns[4]["type"], JSON)
 
     columns = inspector.get_columns("edges")
     assert len(columns) == 3
